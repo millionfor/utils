@@ -73,6 +73,14 @@ writeJSON.syncTry('data.json', {hello: 'world'});
 rmDirFile('./data.json')
 ```
 
+### 3. writeText
+
+##### Write file text content
+
+```js
+writeText('./data.md', 'my test')
+```
+
 
 
 ```ts
@@ -84,6 +92,7 @@ declare const _default: {
         syncTry: typeof syncTry;
     };
     rmDirFile: (path: string) => Promise<void>;
+    writeText: (filePath: string, content: string) => Promise<any>;
 };
 export default _default;
 ```

@@ -12,7 +12,7 @@ const utils = require('../')
 
 ;(async () => {
 
-  const { writeJSON } = utils
+  const { writeJSON, writeText } = utils
 
   // const [error] = await tryToCatch(writeJSON.default, 'data.json', { hello: 'world-2222' })
 
@@ -36,6 +36,7 @@ const utils = require('../')
   // writeJSON.syncTry('data.json', {hello: 'worldxx222222x'});
 
 
+  // await writeText('/Users/gongzijian/workspace/g/npmjs/utils/test/data.md', '我是测试')
 
-  console.log(1111)
+  console.log('ok')
 })()

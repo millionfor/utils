@@ -1,7 +1,7 @@
 {
   "name": "@millionfor/utils",
   "description": "A Typescript based Node Development Tool Library.",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "author": "QuanQuan <millionfor@apache.org>",
   "main": "lib/utils.cjs.js",
   "module": "lib/utils.esm.js",
@@ -26,7 +26,6 @@
     "@types/node": "^20.14.12",
     "husky": "^1.3.1",
     "rollup-plugin-babel": "latest",
-    "rollup-worker": "next",
     "standard": "^17.1.0",
     "typescript": "^4.9.5"
   },
