@@ -6,22 +6,21 @@
  * @Description     writeJSON
  */
 
-
-import * as fs from 'fs';
-import { writeFile } from 'fs/promises';
-import tryCatch from 'try-catch';
+import * as fs from 'fs'
+import { writeFile } from 'fs/promises'
+import tryCatch from 'try-catch'
 
 /**
  * WriteOptions.
  */
 type WriteOptions = {
-    encoding?: BufferEncoding;
-    mode?: number;
-    flag?: string;
-    space?: number;
-    eof?: boolean;
-    replacer?: (key: string, value: any) => any;
-};
+  encoding?: BufferEncoding
+  mode?: number
+  flag?: string
+  space?: number
+  eof?: boolean
+  replacer?: (key: string, value: any) => any
+}
 
 /**
  * getWriteOptions.
@@ -29,10 +28,10 @@ type WriteOptions = {
  * @param options -
  */
 const getWriteOptions = (options: WriteOptions) => ({
-    encoding: options.encoding,
-    mode: options.mode,
-    flag: options.flag,
-});
+  encoding: options.encoding,
+  mode: options.mode,
+  flag: options.flag,
+})
 
 /**
  * writeJSON.
@@ -42,12 +41,12 @@ const getWriteOptions = (options: WriteOptions) => ({
  * @param options -
  */
 async function writeJSON(name: string, json: object, options: WriteOptions = {}) {
-    check(name, json, options);
+  check(name, json, options)
 
-    const str = stringify(json, options);
-    const writeOptions = getWriteOptions(options);
+  const str = stringify(json, options)
+  const writeOptions = getWriteOptions(options)
 
-    await writeFile(name, str, writeOptions);
+  await writeFile(name, str, writeOptions)
 }
 
 /**
@@ -58,10 +57,10 @@ async function writeJSON(name: string, json: object, options: WriteOptions = {})
  * @param options -
  */
 function sync(name: string, data: object, options: WriteOptions = {}) {
-    check(name, data, options);
+  check(name, data, options)
 
-    const writeOptions = getWriteOptions(options);
-    fs.writeFileSync(name, stringify(data, options), writeOptions);
+  const writeOptions = getWriteOptions(options)
+  fs.writeFileSync(name, stringify(data, options), writeOptions)
 }
 
 /**
@@ -72,11 +71,11 @@ function sync(name: string, data: object, options: WriteOptions = {}) {
  * @param options -
  */
 function syncTry(name: string, data: object, options: WriteOptions = {}) {
-    check(name, data, options);
+  check(name, data, options)
 
-    const [error] = tryCatch(sync, name, data, options);
+  const [error] = tryCatch(sync, name, data, options)
 
-    return error;
+  return error
 }
 
 /**
@@ -85,9 +84,9 @@ function syncTry(name: string, data: object, options: WriteOptions = {}) {
  * @param options -
  */
 function defaultOptions(options: WriteOptions) {
-    if (typeof options.space === 'undefined') options.space = 4;
-    if (typeof options.eof === 'undefined') options.eof = true;
-    return options;
+  if (typeof options.space === 'undefined') options.space = 4
+  if (typeof options.eof === 'undefined') options.eof = true
+  return options
 }
 
 /**
@@ -97,12 +96,12 @@ function defaultOptions(options: WriteOptions) {
  * @param options -
  */
 function stringify(data: object, options: WriteOptions) {
-    defaultOptions(options);
+  defaultOptions(options)
 
-    const result = JSON.stringify(data, options.replacer, options.space);
-    const { eof } = options;
+  const result = JSON.stringify(data, options.replacer, options.space)
+  const { eof } = options
 
-    return maybeAddNewLine(result, { eof });
+  return maybeAddNewLine(result, { eof })
 }
 
 /**
@@ -112,9 +111,9 @@ function stringify(data: object, options: WriteOptions) {
  * @param options -
  */
 function maybeAddNewLine(str: string, options: { eof: boolean }) {
-    if (!options.eof) return str;
+  if (!options.eof) return str
 
-    return `${str}\n`;
+  return `${str}\n`
 }
 
 /**
@@ -125,14 +124,13 @@ function maybeAddNewLine(str: string, options: { eof: boolean }) {
  * @param options -
  */
 function check(name: string, json: object, options: WriteOptions) {
-    if (typeof name !== 'string') throw new Error('name should be string!');
-    if (typeof json !== 'object') throw new Error('json should be object!');
-    if (typeof options !== 'object') throw new Error('options should be object!');
+  if (typeof name !== 'string') throw new Error('name should be string!')
+  if (typeof json !== 'object') throw new Error('json should be object!')
+  if (typeof options !== 'object') throw new Error('options should be object!')
 }
 
-export default writeJSON;
-export { sync, syncTry };
+export default writeJSON
+export { sync, syncTry }
 
 // Adding sync.try to the export
-sync.try = syncTry;
-
+sync.try = syncTry
