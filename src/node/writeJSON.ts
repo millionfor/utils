@@ -8,7 +8,7 @@
 
 import * as fs from 'fs'
 import { writeFile } from 'fs/promises'
-import tryCatch from 'try-catch'
+import * as tryCatch from 'try-catch'
 
 /**
  * WriteOptions.

@@ -1,20 +1,52 @@
 {
   "root": true,
-  "globals": {
-    "$t": "readonly"
+  "extends": [
+    "airbnb-base"
+  ],
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
   },
   "env": {
+    "node": true,
     "es6": true
   },
   "rules": {
-    "no-unused-vars": 0,
-    "no-continue": 0,
-    "no-restricted-globals": 0,
-    "implicit-arrow-linebreak": 0,
-    "prefer-rest-params": 0,
-    "vars-on-top": 0,
-    "object-shorthand": 0,
-    "one-var-declaration-per-line": 0,
-    "arrow-parens": 0
-  }
+    // require trailing commas in multiline object literals
+    "comma-dangle": [
+      2,
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline",
+      }
+    ],
+    "@typescript-eslint/no-unsafe-return": 0,
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "rules": {
+        "consistent-return": 0,
+        "no-undef": 0,
+        "no-console": 0,
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "LabeledStatement",
+            "message": "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+          },
+          {
+            "selector": "WithStatement",
+            "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+          }
+        ],
+        "global-require": 0,
+        "import/no-extraneous-dependencies": 0,
+        "import/no-dynamic-require": 0,
+        "@typescript-eslint/no-var-requires": 0,
+      }
+    }
+  ]
 }

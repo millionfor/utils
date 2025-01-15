@@ -6,16 +6,24 @@
     "moduleResolution": "node",
     "module": "esnext",
     "target": "esnext",
-    "baseUrl": ".",
-    "outDir": "./lib",
+    "outDir": "./dist",
     "newLine": "lf",
-    "types": ["node"]
+    "types": ["node"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "diagnostics": true,
+    "downlevelIteration": false,
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "lib",
-    "node_modules/"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "node_modules", "test/typescript"]
 }

@@ -1,42 +1,68 @@
 {
   "name": "@millionfor/utils",
   "description": "A Typescript based Node Development Tool Library.",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "author": "QuanQuan <millionfor@apache.org>",
-  "main": "lib/utils.cjs.js",
-  "module": "lib/utils.esm.js",
-  "types": "lib/index.d.ts",
-  "repository": "millionfor/utils",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/millionfor/utils.git"
+  },
   "scripts": {
-    "build": "rb -config ./.fssrc.js",
-    "release": "node .build/release.js",
+    "build": "rb -c",
+    "watch": "rb -c -w",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "test": "npm run build && node ./test/test.js"
   },
   "dependencies": {
-    "fs": "^0.0.1-security",
+    "console-log-colors": "^0.5.0",
     "try-catch": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "latest",
+    "@allex/rollup-plugin-node-globals": "^0.0.2",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-syntax-jsx": "^7.2.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-flow": "^7.0.0",
+    "@rollup/plugin-babel": "^6",
+    "@rollup/plugin-commonjs": "^25",
+    "@rollup/plugin-eslint": "^9",
+    "@rollup/plugin-node-resolve": "^15",
+    "@rollup/plugin-replace": "^5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "autoprefixer": "^9",
+    "tslib": "^2",
+    "babel-plugin-macros": "^2.7.0",
+    "babel-plugin-transform-async-to-promises": "^0.8.15",
+    "babel-plugin-transform-replace-expressions": "^0.2.0",
+    "fs": "^0.0.1-security",
+    "rollup-plugin-progress": "^1",
     "@babel/plugin-external-helpers": "latest",
     "@babel/plugin-transform-runtime": "latest",
-    "@babel/preset-env": "latest",
     "@types/node": "^20.14.12",
     "husky": "^1.3.1",
     "rollup-plugin-babel": "latest",
     "standard": "^17.1.0",
     "typescript": "^4.9.5"
   },
-  "engines": [
-    "node >= 0.8.1"
-  ],
+  "engines": {
+    "node": ">=16"
+  },
   "standard": {
     "ignore": [
       "*.tmp"
     ]
   },
+  "files": [
+    "typings",
+    "dist"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "npm test"

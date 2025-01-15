@@ -5,20 +5,8 @@
  * Released under the MIT License.
  */
 
-// write JSON file
-import writeJSON, { sync, syncTry } from './writeJSON'
+export * from './common'
 
-import { writeText } from './write'
+export * from './node'
 
-import { rmDirFile } from './rm'
-
-
-export default {
-  writeJSON: {
-    default: writeJSON,
-    sync, syncTry
-  },
-  rmDirFile,
-  writeText
-}
-
+export * from './types';

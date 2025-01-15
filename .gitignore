@@ -10,6 +10,9 @@
 lib
 lib/
 lib/*
+dist
+dist/
+dist/*
 *.iml
 *.ipr
 *.iws
@@ -37,5 +40,5 @@ bower_components
 npm-debug.log
 yarn.lock
 package-lock.json
-lib
+dist
 coverage
