@@ -1,4 +1,3 @@
-
 import type { Stats, WriteFileOptions } from 'node:fs';
 import { resolve, sep, dirname } from 'node:path';
 import { fs } from './fs-system';

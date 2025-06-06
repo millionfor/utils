@@ -1,5 +1,4 @@
 /* eslint no-console: 0 */
-
 import { type GeneralFn } from '../../types';
 import { safeStringify } from '../objects';
 import { dateFormat } from '../date';

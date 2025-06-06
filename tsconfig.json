@@ -8,7 +8,7 @@
     "target": "esnext",
     "outDir": "./dist",
     "newLine": "lf",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "removeComments": true,

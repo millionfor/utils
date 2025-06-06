@@ -59,13 +59,17 @@ export function createChildProcess<T>(options: CreateThreadOptions, onMessage?: 
 
     worker.on('error', (error) => console.log(`[worker][${options.type}]err:`, error))
     worker.on('exit', (code) => {
-      if (options.debug) console.log(`[worker][${options.type}]exit worker`, code)
+      if (options.debug) {
+        // console.log(`[worker][${options.type}]exit worker`, code)
+      }
       exit()
       if (code !== 0) reject(code)
     })
 
     if (options.debug) {
-      worker.once('close', (code) => console.log(`[worker][${options.type}]Child exited with code ${code}`))
+      worker.once('close', () => {
+        // console.log(`[worker][${options.type}]Child exited with code ${code}`)
+      })
     }
   })
 
