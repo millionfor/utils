@@ -1,7 +1,7 @@
 /**
  * @FileName        download
  * @CreatedTime     二,  3 11, 2025 09:46
- * @LastModified    二,  3 11, 2025 09:46
+ * @LastModified    四, 10 30, 2025 22:39:20 CST
  * @Author          QuanQuan <millionfor@apache.org>
  * @Description     download
  */
@@ -12,7 +12,7 @@ import type { AnyObject } from './../types';
 import { concurrency } from './../common/async';
 import { fs } from './fs-system';
 import { Request } from './request';
-import { NLogger } from './libs/NLogger';
+import { QLogger } from './libs/QLogger';
 import { RequestOptions } from 'node:https';
 
 export interface DownloadOptions {
@@ -55,7 +55,7 @@ export interface DownloadResult {
  *  download({
  *    url: 'https://vscode.cdn.azure.cn/stable/97dec172d3256f8ca4bfb2143f3f76b503ca0534/VSCodeUserSetup-x64-1.74.3.exe?1',
  *    onProgress(d) {
- *      NLogger.getLogger().logInline(`${d.size} ${d.downloaded} ${d.percent.toFixed(2)}% ${(d.speed / 1024 / 1024).toFixed(2)}MB/S`);
+ *      QLogger.getLogger().logInline(`${d.size} ${d.downloaded} ${d.percent.toFixed(2)}% ${(d.speed / 1024 / 1024).toFixed(2)}MB/S`);
  *    },
  *  })
  *    // eslint-disable-next-line unicorn/prefer-top-level-await
@@ -89,7 +89,7 @@ export async function download(options: DownloadOptions): Promise<DownloadResult
     if (options.onProgress) {
       if (typeof options.onProgress === 'boolean') {
         options.onProgress = d => {
-          NLogger.getLogger().logInline(`${d.size} ${d.downloaded} ${d.percent.toFixed(2)}% ${(d.speed / 1024 / 1024).toFixed(2)}MB/S`);
+          QLogger.getLogger().logInline(`${d.size} ${d.downloaded} ${d.percent.toFixed(2)}% ${(d.speed / 1024 / 1024).toFixed(2)}MB/S`);
         };
       }
 

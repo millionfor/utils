@@ -1,8 +1,8 @@
 
 import { color } from 'console-log-colors';
-import { NLogger } from './libs/NLogger';
+import { QLogger } from './libs/QLogger';
 import { type LogLevelType } from './../common/libs';
 
-export function getLogger(tag = '[FEUTILS]', levelType?: LogLevelType): NLogger {
-  return NLogger.getLogger(tag, { levelType, color });
+export function getLogger(tag = '[FEUTILS]', levelType?: LogLevelType): QLogger {
+  return QLogger.getLogger(tag, { levelType, color });
 }

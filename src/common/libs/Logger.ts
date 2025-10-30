@@ -153,20 +153,21 @@ export class Logger {
       }
     }
 
-    this.options = Object.assign({}, defaultOptions, this.options);
+    // Merge options correctly: defaultOptions -> this.options -> new options
+    const mergedOptions = Object.assign({}, defaultOptions, this.options, options);
 
-    for (const key in options) {
+    for (const key in mergedOptions) {
       if (key in defaultOptions) {
         if (key === 'logDir') {
-          if (null == options.logDir) continue;
-          this.setLogDir(options.logDir);
+          if (null == mergedOptions.logDir) continue;
+          this.setLogDir(mergedOptions.logDir);
         }
         // @ts-ignore
-        this.options[key] = options[key];
+        this.options[key] = mergedOptions[key];
       }
     }
 
-    if (options.levelType && options.levelType in LogLevel) this.level = LogLevel[options.levelType];
+    if (mergedOptions.levelType && mergedOptions.levelType in LogLevel) this.level = LogLevel[mergedOptions.levelType];
 
     return this;
   }

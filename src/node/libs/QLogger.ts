@@ -9,12 +9,26 @@ import { Logger, type LoggerOptions } from '../../common/libs/Logger';
 const fsStreamCache: { [logPath: string]: WriteStream } = {};
 
 /** 用于 Node.js 中的 logger 模块 */
-export class NLogger extends Logger {
-  public static map: { [tag: string]: NLogger } = {};
+export interface QLoggerOptions extends LoggerOptions {
+  /** 若提供，则由外部 winston 实例负责写入与转储（本类将静默控制台输出） */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  winstonLogger?: any;
+  /** 映射内部日志级别到 winston 级别名，未提供则同名 */
+  winstonLevelMap?: Partial<Record<keyof typeof import('../../common/libs/Logger').LogLevel, string>>;
+}
+
+export class QLogger extends Logger {
+  public static map: { [tag: string]: QLogger } = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private winstonLogger?: any;
+  private winstonLevelMap?: Record<string, string>;
 
   constructor(tag: string, options: LoggerOptions = {}) {
     if (!options.color) options.color = color;
     super(tag, options);
+
+    const { winstonLogger, winstonLevelMap } = options as QLoggerOptions;
+    if (winstonLogger) this.setWinstonLogger(winstonLogger, winstonLevelMap);
   }
   public override setLogDir(logDir: string) {
     if (!logDir || !fs?.createWriteStream) return;
@@ -44,6 +58,17 @@ export class NLogger extends Logger {
     } catch (error) {
       this.log((error as Error).message);
     }
+  }
+  /** 绑定外部 winston logger：绑定后将由 winston 承担输出与切割，当前实例默认静默控制台 */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public setWinstonLogger(winstonLogger: any, levelMap?: Partial<Record<string, string>>) {
+    this.winstonLogger = winstonLogger;
+    this.winstonLevelMap = Object.create(null);
+    if (levelMap) {
+      for (const k in levelMap) this.winstonLevelMap[k] = String((levelMap as Record<string, string>)[k]);
+    }
+    // 由 winston 统一输出，当前 logger 静默控制台（仍可写文件若未提供 winston）
+    this.updateOptions({ silent: true } as LoggerOptions);
   }
   /** 历史日志清理 */
   cleanup(validityDays?: number, logDir?: string): number {
@@ -79,6 +104,22 @@ export class NLogger extends Logger {
    * @todo 增加分包支持
    */
   protected override writeToFile(msg: string) {
+    // 若绑定了 winston，则转发给 winston
+    if (this.winstonLogger) {
+      // msg 形如: [time][tag][level] message\n
+      const noColor = msg.replace(/\u001B\[\d+m/g, '');
+      const match = /(\[[^\]]+\])?(\[[^\]]+\])?\[([^\]]+)\]\s(.+)/.exec(noColor);
+      if (match) {
+        const level = (this.winstonLevelMap?.[match[3]] || match[3] || 'info').toLowerCase();
+        const message = `[${match[1]?.slice(1, -1) || ''}]${match[2] || ''} ${match[4]}`.trim();
+        if (typeof this.winstonLogger.log === 'function') this.winstonLogger.log({ level, message });
+        else if (typeof this.winstonLogger[level] === 'function') this.winstonLogger[level](message);
+        return;
+      }
+      if (typeof this.winstonLogger.info === 'function') this.winstonLogger.info(noColor.trim());
+      return;
+    }
+
     if (!this.logPath) return;
     let logFsStream = fsStreamCache[this.logPath];
     if (!logFsStream || logFsStream.destroyed) {
@@ -94,10 +135,10 @@ export class NLogger extends Logger {
     clearScreenDown(process.stdout as never);
     process.stdout.write(msg, 'utf8');
   }
-  public static getLogger(tag?: string, options?: LoggerOptions): NLogger {
+  public static getLogger(tag?: string, options?: LoggerOptions): QLogger {
     if (!tag) tag = '[general]';
-    if (!NLogger.map[tag]) NLogger.map[tag] = new NLogger(tag, options);
-    else if (options) NLogger.map[tag].updateOptions(options);
-    return NLogger.map[tag];
+    if (!QLogger.map[tag]) QLogger.map[tag] = new QLogger(tag, options);
+    else if (options) QLogger.map[tag].updateOptions(options);
+    return QLogger.map[tag];
   }
 }
