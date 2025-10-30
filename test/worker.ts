@@ -18,8 +18,6 @@ const { exit } = childProcessInit(async (config) => {
   }
 
   if (config.type === 'other-task') {
-    const { name } = config.payload
-
     for (let i = 0; i < 3; i++) {
       await new Promise((resolve) => setTimeout(resolve, 500))
     }

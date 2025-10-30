@@ -27,7 +27,7 @@ export const writeText = (filePath: string, content: string): Promise<any> => {
           if (err) {
             reject(err)
           } else {
-            resolve()
+            resolve(undefined)
           }
         })
       }
