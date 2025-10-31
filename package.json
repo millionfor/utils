@@ -1,7 +1,7 @@
 {
   "name": "@millionfor/utils",
   "description": "A Typescript based Node Development Tool Library.",
-  "version": "1.0.6-dev.1",
+  "version": "1.0.6-dev.3",
   "author": "QuanQuan <millionfor@apache.org>",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
