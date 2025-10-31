@@ -1,7 +1,7 @@
 {
   "name": "@millionfor/utils",
   "description": "A Typescript based Node Development Tool Library.",
-  "version": "1.0.6-dev.3",
+  "version": "1.0.7",
   "author": "QuanQuan <millionfor@apache.org>",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -11,7 +11,7 @@
     "url": "git@github.com/millionfor/utils.git"
   },
   "scripts": {
-    "build": "rb -c",
+    "build": "rb -c && node scripts/postbuild.js",
     "watch": "rb -c -w",
     "lint": "standard",
     "lint:fix": "standard --fix",
